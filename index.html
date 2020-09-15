@@ -376,14 +376,15 @@ summary {
 Su1 = 42
 Sd1 = 38
 r1 = 8/100
-Cu1 = Su1-So1
-Cd1 = Sd1-So1
+K1 = 39
+Cu1 = max(0,Su1-K1)
+Cd1 = max(0,Sd1-K1)
 delta1 = (Cu1-Cd1)/(Su1-Sd1)
 t = 1/12
 Call = delta1*So1-(exp(-r1*t))*(delta1*Su1-Cu1)
 Call</code></pre>
-<pre><code>## [1] 0.2657797</code></pre>
-<p>Assim, o valor da Call européia é de aproximadamente $0,27.</p>
+<pre><code>## [1] 1.689368</code></pre>
+<p>Assim, o valor da Call européia é de aproximadamente $1.69.</p>
 </div>
 <div id="questão-2" class="section level2">
 <h2>Questão 2)</h2>
@@ -391,21 +392,24 @@ Call</code></pre>
 <pre class="r"><code>So2 = 50
 Su2 = 55
 Sd2 = 45
+K2 = 50
 r2 = 10/100
-Pu2 = Su2 - So2
-Pd2 = Sd2 - So2
+Pu2 = max(0,Su2-K2)
+Pd2 = max(0,Sd2-K2)
 pu = (So2 - (exp(-r2*t))*Sd2)/(Su2-Sd2)
 pd = (((exp(-r2*t))*Su2)-So2)/(Su2-Sd2)
 Put = (pu*Pu2)+(pd*Pd2)
 Put</code></pre>
-<pre><code>## [1] 0.4149354</code></pre>
-<p>Verifica-se que o valor aproximado da Put européia é de $0,41.</p>
+<pre><code>## [1] 2.686721</code></pre>
+<p>Verifica-se que o valor aproximado da Put européia é de $2,69.</p>
 </div>
 <div id="questão-3" class="section level2">
 <h2>Questão 3)</h2>
 </div>
 <div id="questão-4" class="section level2">
 <h2>Questão 4)</h2>
+<div id="a-e-b" class="section level3">
+<h3>A) e B)</h3>
 <div id="i-bear-spread-usando-puts" class="section level4">
 <h4>i) Bear Spread usando Puts</h4>
 <p>O Bear Spread utilizando Puts envolve a compra de uma opção de venda (posição long em uma Put), a um determinado strike (preço de exercício), e a emissão de uma opção de venda (posição short em uma Put), a um preço de strike menor do que o da long put.</p>
@@ -445,6 +449,42 @@ Put</code></pre>
 <li><p>Se <span class="math inline">\(X_1&lt;S_t&lt;X_2\)</span>, ambas put e call não são exercidas pelo investidor, e o payoff será zero.</p></li>
 </ol>
 </div>
+</div>
+<div id="c" class="section level3">
+<h3>C)</h3>
+<p>A paridade put-call aplica-se em um ambiente com ausência de arbitragem, para opções européias, sendo uma put e uma call, com mesmo strike e mesmo vencimento. Neste contexto, compra-se uma call (long em call) e vende-se uma put (short em put). A relação será: <span class="math inline">\(C - P = S - K e^ {-rt}\)</span>, sendo que <span class="math inline">\(C\)</span> = prêmio da call, <span class="math inline">\(P\)</span> = prêmio da put, <span class="math inline">\(S\)</span> = preço da ação, <span class="math inline">\(K\)</span> = strike, <span class="math inline">\(r\)</span> = taxa livre de risco, e <span class="math inline">\(t\)</span> = maturidade. <span class="math inline">\(e^ {-rt}\)</span> é o fator de atualização do strike, trazendo-o a valor presente.</p>
+<p>No vencimento das duas opções, tem-se que:</p>
+<ul>
+<li><span class="math inline">\(C\)</span> pode assumir os valores <span class="math inline">\((S-K, 0)\)</span></li>
+<li><span class="math inline">\(P\)</span> pode assumir os valores <span class="math inline">\((0, K-S)\)</span></li>
+<li><span class="math inline">\(S\)</span> será <span class="math inline">\(S\)</span>, e</li>
+<li><span class="math inline">\(K e^ {-rt}\)</span>, <span class="math inline">\(K\)</span> será igual à <span class="math inline">\(K\)</span> e <span class="math inline">\(e^ {-rt}\)</span> será igual à 1, assim, <span class="math inline">\(K e^ {-rt} = K\)</span></li>
+</ul>
+<p>Na primeira situação, temos que <span class="math inline">\(S&gt;K\)</span>, assim, a call será exercida, <span class="math inline">\(C\)</span> assume o valor de <span class="math inline">\(S-K\)</span> e <span class="math inline">\(P\)</span> assume o valor de <span class="math inline">\(0\)</span>.</p>
+<p><span class="math display">\[
+  C - P = S - K e^ {-rt}
+\]</span> <span class="math display">\[
+  C - P - S = - K e^ {-rt}
+\]</span> <span class="math display">\[
+  (S-K) - 0 - S = - K . 1
+\]</span></p>
+<p><span class="math display">\[
+  - K = - K
+\]</span> Na segunda situação, temos que <span class="math inline">\(S&lt;K\)</span>, assim, a put será exercida, <span class="math inline">\(C\)</span> assume o valor de <span class="math inline">\(0\)</span> e <span class="math inline">\(P\)</span> assume o valor de <span class="math inline">\(K-S\)</span>.</p>
+<p><span class="math display">\[
+  C - P = S - K e^ {-rt}
+\]</span> <span class="math display">\[
+  C - P - S = - K e^ {-rt}
+\]</span> <span class="math display">\[
+  0 - (K - S) - S = - K . 1
+\]</span></p>
+<p><span class="math display">\[
+  - K = - K
+\]</span> Desta forma, supondo-se a ausência de arbitragem, dois portfolios que sempre geram o mesmo payoff em um instante <span class="math inline">\(t\)</span> devem ter o mesmo valor em qualquer instante intermediário.</p>
+</div>
+</div>
+<div id="questão-5" class="section level2">
+<h2>Questão 5)</h2>
 </div>
 
 
